@@ -39,7 +39,7 @@ jobs:
     - name: Run database migrations
       run: poetry run aerich upgrade
       env:
-        DB_HOST: localhost
+        DB_HOST: postgres
         DB_NAME: ${{ env.POSTGRES_DB }}
         DB_USER: ${{ env.POSTGRES_USER }}
         DB_PASSWD: ${{ secrets.POSTGRES_PASSWORD }}
