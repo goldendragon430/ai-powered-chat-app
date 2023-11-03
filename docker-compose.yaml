@@ -12,10 +12,8 @@ services:
       sh -c "poetry run aerich upgrade && poetry run uvicorn src.main:app --host 0.0.0.0 --port 8000"
   db:
     image: postgres:13
-    environment:
-      - POSTGRES_USER=chat
-      - POSTGRES_PASSWORD=Pw9WMaEp
-      - POSTGRES_DB=chat
+    env_file:
+      - .env
     ports:
       - "5432:5432"
     volumes:
