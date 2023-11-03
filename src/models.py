@@ -14,6 +14,7 @@ class Interaction(models.Model):
 
     class Meta:
         table = "interactions"
+        ordering = ["-created_at", "-updated_at"]
 
 
 class Message(models.Model):

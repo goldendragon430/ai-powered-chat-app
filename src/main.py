@@ -1,9 +1,10 @@
 # pylint: disable=E0611,E0401
+from contextlib import asynccontextmanager
 from uuid import UUID
 
 from fastapi import FastAPI
 from starlette.exceptions import HTTPException
-from tortoise.contrib.fastapi import register_tortoise
+from tortoise import Tortoise, connections
 from tortoise.query_utils import Prefetch
 
 from src import settings
@@ -19,7 +20,17 @@ from src.schemas import (
 )
 from src.utils import get_response_from_ai_model
 
-app = FastAPI(title="AI-Powered Chat Application")
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Initialize db
+    await Tortoise.init(settings.TORTOISE_ORM)
+    yield
+    # Finalize db
+    await connections.close_all()
+
+
+app = FastAPI(title="AI-Powered Chat Application", lifespan=lifespan)
 
 
 @app.get("/interactions")
@@ -88,10 +99,3 @@ async def create_message(
         message=await MessageSchemaOut.serialize_obj(message_obj),
         response=await MessageSchemaOut.serialize_obj(response_obj),
     )
-
-
-register_tortoise(
-    app,
-    settings.TORTOISE_ORM,
-    add_exception_handlers=True,
-)
