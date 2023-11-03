@@ -35,7 +35,7 @@ jobs:
     - name: Install dependencies
       run: poetry install
     - name: Run tests
-      run: poetry run pytest
+      run: poetry run pytest tests/*
     - name: Run database migrations
       run: poetry run aerich upgrade
     - name: Build Docker image

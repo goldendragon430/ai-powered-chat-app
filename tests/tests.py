@@ -61,7 +61,7 @@ class InteractionTestCase(test.IsolatedTestCase):
         assert response_obj.content == "Hello Shahriar. What can I do for you?"
         assert response_obj.role == RoleEnum.AI
 
-    async def get_messages(self):
+    async def test_get_messages(self):
         interaction = await Interaction.create(
             ai_model_name=ModelNameEnum.GPT4, prompt="My name is Shahriar"
         )
@@ -81,11 +81,11 @@ class InteractionTestCase(test.IsolatedTestCase):
         assert response.status_code == 200
         data = response.json()
 
-        assert data[0]["id"] == message1.id
+        assert data[0]["id"] == str(message1.id)
         assert data[0]["content"] == "Hi"
         assert data[0]["role"] == "human"
 
-        assert data[1]["id"] == message2.id
+        assert data[1]["id"] == str(message2.id)
         assert data[1]["content"] == "Hello there. How can I help you?"
         assert data[1]["role"] == "ai"
 
