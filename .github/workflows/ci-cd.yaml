@@ -13,9 +13,9 @@ jobs:
       postgres:
         image: postgres:13
         env:
-          POSTGRES_USER: $POSTGRES_USER
-          POSTGRES_PASSWORD: $POSTGRES_PASSWORD
-          POSTGRES_DB: $POSTGRES_DB
+          POSTGRES_USER: ${{ vars.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ vars.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ vars.POSTGRES_DB }}
         ports:
           - 5432:5432
         options: >-
@@ -40,8 +40,8 @@ jobs:
       run: poetry run aerich upgrade
       env:
         DB_HOST: "postgres"
-        DB_NAME: $POSTGRES_DB
-        DB_USER: $POSTGRES_USER
-        DB_PASSWD: $POSTGRES_PASSWORD
+        DB_NAME: ${{ vars.POSTGRES_DB }}
+        DB_USER: ${{ vars.POSTGRES_USER }}
+        DB_PASSWD: ${{ vars.POSTGRES_PASSWORD }}
     - name: Build Docker image
       run: docker build .
